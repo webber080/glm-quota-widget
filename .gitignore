@@ -1,0 +1,19 @@
+# 凭据 —— 永远不要提交
+.key
+*.key
+.env
+github_token*
+!.ssh/known_hosts
+
+# 构建产物
+android/app/build/
+android/.gradle/
+android/build/
+menubar/build/
+*.apk
+
+# IDE / 系统
+.idea/
+*.iml
+.DS_Store
+local.properties

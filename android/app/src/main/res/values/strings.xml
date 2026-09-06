@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GLM 额度</string>
+    <string name="widget_desc">1×1 圆环：5 小时限额已用比例</string>
+    <string name="widget_desc_bar">2×1 横条：5 小时限额 + 重置倒计时</string>
+    <string name="widget_desc_card">2×2 方卡：5 小时 + 每周限额明细</string>
+    <string name="widget_label_ring">GLM 5h · 圆环</string>
+    <string name="widget_label_bar">GLM 5h · 横条</string>
+    <string name="widget_label_card">GLM 5h · 明细卡</string>
+    <string name="widget_loading_title">GLM 额度</string>
+    <string name="api_key_hint">粘贴智谱 API Key（bigmodel.cn）</string>
+    <string name="save_key">保存并刷新</string>
+    <string name="refresh_now">立即刷新</string>
+</resources>
