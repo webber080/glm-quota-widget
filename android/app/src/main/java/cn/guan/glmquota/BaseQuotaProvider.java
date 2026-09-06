@@ -111,7 +111,7 @@ public abstract class BaseQuotaProvider extends AppWidgetProvider {
             v.setTextViewText(R.id.w1_pct, pct);
             v.setTextColor(R.id.w1_pct, color);
             v.setTextViewText(R.id.w1_sub, sub1x1);
-            v.setProgressBar(R.id.w1_ring, 100, progress, false);
+            v.setProgressBar(R.id.w1_bar, 100, progress, false);
         } else if (layout == R.layout.widget_2x1) {
             v.setTextViewText(R.id.w2_pct, pct);
             v.setTextColor(R.id.w2_pct, color);

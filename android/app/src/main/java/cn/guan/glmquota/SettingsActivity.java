@@ -31,8 +31,14 @@ public class SettingsActivity extends Activity {
         int pad = (int) (16 * getResources().getDisplayMetrics().density);
         root.setPadding(pad, pad, pad, pad);
 
+        String ver;
+        try {
+            ver = getPackageManager()
+                    .getPackageInfo(getPackageName(), 0).versionName;
+        } catch (Exception e) { ver = "?"; }
+
         TextView title = new TextView(this);
-        title.setText("GLM Coding Plan 额度小组件");
+        title.setText("GLM 额度小组件  v" + ver);
         title.setTextSize(18);
 
         EditText keyBox = new EditText(this);
