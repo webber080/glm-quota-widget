@@ -43,29 +43,11 @@ public class SettingsActivity extends Activity {
 
         EditText keyBox = new EditText(this);
         keyBox.setHint(R.string.api_key_hint);
-        keyBox.setInputType(InputType.TYPE_CLASS_TEXT);
+        keyBox.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         keyBox.setText(sp.getString(BaseQuotaProvider.KEY_API, ""));
 
         TextView status = new TextView(this);
         status.setText("接口: open.bigmodel.cn/api/monitor/usage/quota/limit");
-
-        Button paste = new Button(this);
-        paste.setText("粘贴");
-        paste.setOnClickListener((View v) -> {
-            android.content.ClipboardManager cm =
-                    (android.content.ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-            if (cm == null || !cm.hasPrimaryClip() || cm.getPrimaryClip().getItemCount() == 0) {
-                status.setText("剪贴板是空的，先复制一下 Key");
-                return;
-            }
-            CharSequence clip = cm.getPrimaryClip().getItemAt(0).getText();
-            if (clip == null || clip.toString().trim().isEmpty()) {
-                status.setText("剪贴板内容为空");
-                return;
-            }
-            keyBox.setText(clip.toString().trim());
-            status.setText("已从剪贴板填入，点「保存并刷新」");
-        });
 
         Button save = new Button(this);
         save.setText(R.string.save_key);
@@ -85,7 +67,6 @@ public class SettingsActivity extends Activity {
 
         root.addView(title);
         root.addView(keyBox);
-        root.addView(paste);
         root.addView(save);
         root.addView(refresh);
         root.addView(status);
