@@ -65,7 +65,7 @@ public abstract class BaseQuotaProvider extends AppWidgetProvider {
 
         final String fKey = key;
         EXEC.execute(() -> {
-            String pct, sub, week;
+            String pct, sub, subShort, week;
             int progress, color;
             try {
                 QuotaApi.Result res = QuotaApi.query(fKey);
@@ -74,6 +74,7 @@ public abstract class BaseQuotaProvider extends AppWidgetProvider {
                 progress = w.usedPct;
                 color = w.usedPct >= 90 ? RED : w.usedPct >= 70 ? AMBER : GREEN;
                 sub = fmtReset(w);
+                subShort = fmtResetShort(w);
                 QuotaApi.Window wk = null;
                 for (QuotaApi.Window x : res.windows) if (x.label.contains("周")) wk = x;
                 week = wk == null ? res.level : "周 " + wk.usedPct + "% · " + res.level;
@@ -82,16 +83,14 @@ public abstract class BaseQuotaProvider extends AppWidgetProvider {
                 progress = 0;
                 color = GRAY;
                 sub = e.getMessage() != null ? e.getMessage() : "查询失败";
+                subShort = "5h";
                 week = "";
             }
             final RemoteViews fv = v;
-            final String f1 = pct, f2 = sub, f3 = week;
-            // 1×1 小字放不下重置文案，只放窗口标签
-            final String sub1x1 = f2.contains("后") || f2.contains("重置")
-                    || f2.equals("查询中…") ? "5h" : f2;
+            final String f1 = pct, f2 = sub, f3 = week, fShort = subShort;
             final int fp = progress, fc = color;
             MAIN.post(() -> {
-                fill(fv, layout, f1, f2, fp, fc, sub1x1);
+                fill(fv, layout, f1, f2, fp, fc, fShort);
                 if (layout == R.layout.widget_2x2) fv.setTextViewText(R.id.w3_week, f3);
                 mgr.updateAppWidget(id, fv);
             });
@@ -104,6 +103,16 @@ public abstract class BaseQuotaProvider extends AppWidgetProvider {
         if (h < 48) return String.format("%.1fh 后重置", h);
         return String.format("%.1f天后重置", h / 24);
     }
+
+    /** 1×1 用的紧凑倒计时 */
+    private static String fmtResetShort(QuotaApi.Window w) {
+        if (w == null) return "5h";
+        double h = w.resetInMs / 3_600_000.0;
+        if (h < 1) return String.format("%d分", (int) (h * 60));
+        if (h < 48) return String.format("%.1fh", h);
+        return String.format("%.1f天", h / 24);
+    }
+
 
     private static void fill(RemoteViews v, int layout, String pct, String reset,
                              int progress, int color, String sub1x1) {
