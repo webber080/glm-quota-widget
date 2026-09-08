@@ -190,6 +190,8 @@ public abstract class BaseQuotaProvider extends AppWidgetProvider {
 
     private static String fmtReset(QuotaApi.Window w) {
         double h = w.resetInMs / 3_600_000.0;
+        if (h < -1 || h > 24 * 8) return "重置时间待定";   // 时钟异常或接口脏数据
+        if (h < 0) return "已重置，刷新后更新";            // 刚过重置点，下轮查询拿新窗口
         if (h < 1) return String.format("%d分钟后重置", (int) (h * 60));
         if (h < 48) return String.format("%.1fh 后重置", h);
         return String.format("%.1f天后重置", h / 24);
@@ -199,6 +201,8 @@ public abstract class BaseQuotaProvider extends AppWidgetProvider {
     private static String fmtResetShort(QuotaApi.Window w) {
         if (w == null) return "5h";
         double h = w.resetInMs / 3_600_000.0;
+        if (h < -1 || h > 24 * 8) return "--";
+        if (h < 0) return "已重置";
         if (h < 1) return String.format("%d分", (int) (h * 60));
         if (h < 48) return String.format("%.1fh", h);
         return String.format("%.1f天", h / 24);
